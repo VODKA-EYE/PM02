@@ -1,0 +1,98 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="920" d:DesignHeight="450"
+        x:Class="PM02.MainWindow"
+        Title="PM02">
+  <Grid RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*,Auto">
+    
+    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,Auto,Auto,Auto">
+      <TextBox Grid.ColumnSpan="2" Name="SearchTextBox" Watermark="Поиск"/>
+      <TextBox Grid.Row="1" Name="HowMuchGenerate" Watermark="Сколько генерировать"/>
+      <Button Grid.Row="1" Grid.Column="1" Content="Сгенерировать!" Name="GenerateButton" Click="GenerateButton_OnClick"/>
+      
+      <ComboBox Grid.Row="1" Grid.Column="2" Name="SelectDataDisplayedComboBox" SelectedIndex="0">
+        <ComboBoxItem>Измерения</ComboBoxItem>
+        <ComboBoxItem>Сенсоры</ComboBoxItem>
+        <ComboBoxItem>Станции</ComboBoxItem>
+      </ComboBox>
+      <ComboBox Grid.Row="0" Grid.Column="2" Name="SortComboBox" SelectedIndex="0">
+        <ComboBoxItem>Сортировка</ComboBoxItem>
+        <ComboBoxItem>По измерению (убывание)</ComboBoxItem>
+        <ComboBoxItem>По измерению (возрастание)</ComboBoxItem>
+        <ComboBoxItem>По дате (убывание)</ComboBoxItem>
+        <ComboBoxItem>По дате (возрастание)</ComboBoxItem>
+      </ComboBox>
+      
+    </Grid>
+    
+    <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
+      <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="Номер сенсора" Name="TB_SensorNumber_StationNumber"/>
+      <TextBlock Grid.Column="1" Name="TB_StationName"/>
+      <TextBlock Grid.Column="2" Text="Измерение" Name="TB_MeasurementValue_WhichStation_StationLongitude"/>
+      <TextBlock Grid.Column="3" Text="Тип измерения" Name="TB_MeasurementName_AddedTS_StationLatitude"/>
+      <TextBlock Grid.Column="4" Text="Время измерения" Name="TB_MeasurementTs"/>
+    </Grid>
+    
+    <ListBox Grid.Row="2" Name="MeasurementsListBox" SelectionChanged="MeasurementsListBox_OnSelectionChanged">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*,*,*,*,*">
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=SensorInventoryNumber}"/>
+            <TextBlock Grid.Column="2" Text="{Binding Path=MeasurementValue}"/>
+            <TextBlock Grid.Column="3" Text="{Binding Path=MeasurementTypeNavigation.TypeName}"/>
+            <TextBlock Grid.Column="4" Text="{Binding Path=MeasurementTs}"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    
+    <ListBox Grid.Row="2" Name="SensorsListBox" >
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*,*,*,*,*">
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=SensorInventoryNumber}"/>
+            <TextBlock Grid.Column="2" Text="{Binding Path= Sensor.SensorName}"/>
+            <TextBlock Grid.Column="3" Text="{Binding Path=Station.StationName}"/>
+            <TextBlock Grid.Column="4" Text="{Binding Path=AddedTs}"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    
+    <ListBox Grid.Row="2" Name="StationsListBox" >
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*,*,*,*,*">
+            <TextBlock Grid.Column="0" Text="{Binding Path=StationId}"/>
+            <TextBlock Grid.Column="1" Text="{Binding Path=StationName}"/>
+            <TextBlock Grid.Column="2" Text="{Binding Path=StationLongitude}"/>
+            <TextBlock Grid.Column="3" Text="{Binding Path=StationLatitude}"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    
+    <StackPanel Grid.Row="3" Orientation="Horizontal">
+      <TextBlock Text=" Количество сенсоров: "/>
+      <TextBlock Name="TBAmountOfSensors" Text="99"/>
+      <TextBlock Text=" Количество метеостанций: "/>
+      <TextBlock Name="TBAmountOfMeteostations" Text="99"/>
+      <TextBlock Text=" Среднее значение измерений: "/>
+      <TextBlock Name="TBAverageOfMeasurements" Text="99"/>
+      <TextBlock Text=" Дата последнего измерения: "/>
+      <TextBlock Name="TBLastMeasurement" Text="22 22 9999"/>
+    </StackPanel>
+    
+    <Grid Grid.Column="1" Grid.Row="2" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+      <TextBlock Grid.Row="0" Text="Подробная информация о сенсоре"/>
+      <TextBlock Grid.Row="1" Text="Название метеостанции: "/>
+      <TextBlock Grid.Row="2" Text="{Binding Path=Station.StationName}" Name="TB_Additional_StationName"/>
+      <TextBlock Grid.Row="3" Text="Модель сенсора: "/>
+      <TextBlock Grid.Row="4" Text="{Binding Path= Sensor.SensorName}" Name="TB_Additional_SensorName"/>
+      <TextBlock Grid.Row="5" Text="Дата регистрации: "/>  
+      <TextBlock Grid.Row="6" Text="{Binding Path=AddedTs}" Name="TB_Additional_AddedTS"/>
+    </Grid>
+  </Grid>
+</Window>
